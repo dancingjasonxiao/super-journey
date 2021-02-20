@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3-1</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    Vue.createApp({
+        data() {
+            return {
+                inputValue: '',
+                list: []
+            }
+        },
+        methods: {
+            // 点击增加
+            handleAddItem () {
+                this.list.push(this.inputValue);
+                this.inputValue = '';
+            },
+            
+            // 点击删除
+            handleDeleteItem (index) {
+                this.list.splice(index, 1);
+            }
+        },
+        template: `
+            <div>
+                <input v-model="inputValue" />
+                <button v-on:click="handleAddItem">增加</button>
+                <ul>
+                    <li v-for="(item, index) of list">
+                        {{ item }}
+                        <button v-on:click="handleDeleteItem(index)">删除</button>
+                    </li>
+                </ul>
+            </div>
+        `
+    }).mount('#root');
+</script>
+</html>
