@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lifecycle(生命周期)</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="root">
+        <!-- <div>{{ message }}</div> -->
+    </div>
+</body>
+<script>
+    // 生命周期函数：在某一时刻会自动执行的函数
+    const app = Vue.createApp({
+        data () {
+            return {
+                message: 'hello world'
+            }
+        },
+        /**
+         * 在实例生成之前自动执行的函数
+         * vue init(初始化/检查分析) events(事件) & lifecycle(生命周期) 完成后，
+         * 会执行 beforeCreate 函数，详见lifecycle.svg。
+         */
+        beforeCreate () {
+            console.log('beforeCreate');
+        },
+        /**
+         * 在实例生成之后自动执行的函数
+         * vue init(初始化/检查分析) injections(依赖注入) & reactivity(双向绑定) 完成后，
+         * 会执行 created 函数，详见lifecycle.svg。
+         */
+        created () {
+            console.log('created');
+        },
+        /**
+         * 在组件内容被渲染到页面之前自动执行的函数
+         * 1.如果组件内有 template，vue 将 template 内容编译生成 render 函数后，
+         * 2.如果组件内没有 template，vue 将取 el(root) 节点下的内容作为 template，再将内容编译生成 render 函数后，
+         * 会执行 beforeMount 函数，详见lifecycle.svg。
+         */
+        beforeMount () {
+            console.log(document.getElementById('root').innerHTML, 'beforeMount');
+        },
+        /**
+         * 在组件内容被渲染到页面之后自动执行的函数
+         * vue 创建 $el 节点并替换 el(root) 节点后，
+         * 会执行 mounted 函数，详见lifecycle.svg。
+         */
+        mounted () {
+            console.log(document.getElementById('root').innerHTML, 'mounted');
+        },
+        /**
+         * 当前数据发生变化时会立即自动执行的函数
+         * 详见lifecycle.svg
+         */
+        beforeUpdate () {
+            console.log(document.getElementById('root').innerHTML, 'beforeUpdate');
+        },
+        /**
+         * 当前数据发生变化，页面重新渲染后，会立即自动执行的函数
+         * Virtual DOM (虚拟dom) 重新调用 render 函数，
+         * 将 render 返回的新 vNode（新节点）和组件实例保存的 vNode（旧节点）作为参数，调用 patch 方法后，
+         * 执行 updated 函数，更新DOM。详见lifecycle.svg。
+         */
+        updated () {
+            console.log(document.getElementById('root').innerHTML, 'updated');
+        },
+        /**
+         * 当前 Vue 应用失效时自动执行的函数
+         * 调用 vue实例的 unmount(app.unmount()) 方法后，会执行 beforeUnmount 函数。详见lifecycle.svg。
+         */
+        beforeUnmount () {
+            console.log(document.getElementById('root').innerHTML, 'beforeUnmount');
+        },
+        /**
+         * 当前 Vue 应用失效时，且 dom 完全销毁之后，自动执行的函数
+         * 详见lifecycle.svg
+         */
+        unmounted () {
+            console.log(document.getElementById('root').innerHTML, 'unmounted');
+        },
+        template: '<div>{{ message }}</div>'
+    });
+    const vm = app.mount('#root');
+
+    setTimeout(() => {
+        // 数据发生变化，视图随即进行更新
+        vm.$data.message = 'see you';
+    }, 1000);
+
+    setTimeout(() => {
+        // 调用unmount对实例进行销毁
+        app.unmount();
+    }, 3000);
+</script>
+
+</html>

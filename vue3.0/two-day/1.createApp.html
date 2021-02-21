@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>createApp</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    /**
+     * createApp 表示创建一个 Vue 应用，存储到 app 变量中
+     * 传入的参数(options)表示这个应用最外层的组件应该如何展示
+     * mvvm 设计模式，m -> model， v -> view视图， vm -> viewModel 视图数据连接层
+     */
+    const app = Vue.createApp({
+        data () {
+            return {
+                message: 'hello world'
+            }
+        },
+        template: '<div>{{ message }}</div>'
+    });
+
+    // vm 代表的就是 vue 应用的根组件
+    const vm = app.mount('#root');
+    console.log(app);
+    console.log(vm);
+    
+    /**
+     * Vue 在创建组件实例的过程中调用组件的 data 函数
+     * Vue 通过响应性系统将其包裹起来，并以 $data 的形式存储在组件实例中。
+     */
+    console.log(vm.$data.message);
+    setTimeout(() => {
+        // 数据发生变化，视图随即进行更新
+        vm.$data.message = 'see you';
+        console.log(vm.$data.message);
+    }, 1000);
+</script>
+
+</html>
