@@ -13,7 +13,10 @@ class TodoList extends Component {
         this.handleBtnClick = this.handleBtnClick.bind(this);
         this.handleBtnDelete = this.handleBtnDelete.bind(this);
     }
+
+    // 当组件的state或props发生改变时，render函数就会重新执行
     render() {
+        console.log('list render');
         return (
             <>
                 {/* TodoList */}
