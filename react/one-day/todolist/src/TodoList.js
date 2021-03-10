@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import TodoListItem from './TodoListItem';
 import './TodoList.css';
 
 class TodoList extends Component {
@@ -7,7 +8,10 @@ class TodoList extends Component {
         this.state = {
             inputValue: '',
             list: ['number one', 'number two']
-        }
+        };
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleBtnClick = this.handleBtnClick.bind(this);
+        this.handleBtnDelete = this.handleBtnDelete.bind(this);
     }
     render() {
         return (
@@ -19,47 +23,48 @@ class TodoList extends Component {
                         id="input"
                         className="input"
                         value={this.state.inputValue}
-                        onChange={this.handleInputChange.bind(this)}
+                        onChange={this.handleInputChange}
                     />
-                    <button onClick={this.handleBtnClick.bind(this)}>保存</button>
+                    <button onClick={this.handleBtnClick}>保存</button>
                 </div>
-                <ul>
-                    {
-                        this.state.list.map((item, index) => {
-                            return (
-                                <li
-                                    key={index}
-                                    onClick={this.handleBtnDelete.bind(this, index)}
-                                    dangerouslySetInnerHTML={{__html: item}}
-                                >
-                                </li>
-                            )
-                        })
-                    }
-                </ul>
+                <ul>{this.getListItem()}</ul>
             </>
         );
     }
 
-    handleInputChange (e) {
-        this.setState({
-            inputValue: e.target.value
+    getListItem () {
+        return this.state.list.map((item, index) => {
+            return (
+                <TodoListItem
+                    key={index}
+                    content={item}
+                    index={index}
+                    deleteItem={this.handleBtnDelete}
+                />
+            )
         })
+    }
+
+    handleInputChange (e) {
+        const value = e.target.value;
+        this.setState(() => ({ inputValue: value }));
     }
 
     // 点击保存
     handleBtnClick () {
-        this.setState({
-            list: [...this.state.list, this.state.inputValue],
+        this.setState(prevState => ({
+            list: [...prevState.list, prevState.inputValue],
             inputValue: ''
-        })
+        }));
     }
 
     // 点击删除
     handleBtnDelete (index) {
-        let list = [...this.state.list];
-        list.splice(index, 1);
-        this.setState({ list });
+        this.setState(prevState => {
+            let list = [...prevState.list];
+            list.splice(index, 1);
+            return { list };
+        });
     }
 }
 
