@@ -1,7 +1,6 @@
 # data-type 数据类型
 
-<!-- ![data-type](/assets/data-type.png) -->
-![data-type](https://github.com/dancingjasonxiao/super-journey/blob/main/assets/data-type.png?raw=true)
+![data-type](https://cdn.jsdelivr.net/gh/dancingjasonxiao/resource/img/data-type.png)
 
 ### 基础类型
 
